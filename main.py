@@ -1,25 +1,15 @@
 import argparse
 import json
 
-def update_runs(log):
-    file = open('logs/runs.json', 'r')
+def update_logs(log, prefix):
+    filename = 'logs/' + prefix + '.json'
+    file = open(filename, 'r')
     data = json.load(file)
     file.close()
 
     data.append(log)
 
-    file = open('logs/runs.json', 'w')
-    json.dump(data, file, indent=1)
-    file.close()
-
-def update_weights(log):
-    file = open('logs/weights.json', 'r')
-    data = json.load(file)
-    file.close()
-
-    data.append(log)
-
-    file = open('logs/weights.json', 'w')
+    file = open(filename, 'w')
     json.dump(data, file, indent=1)
     file.close()
 
@@ -41,13 +31,13 @@ while currentarg[0] != "quit":
             weight = currentarg[2]
             log = {"weight": weight}
             print("Recording weight of "+weight)
-            update_weights(log)
+            update_logs(log, "weights")
 
         elif currentarg[1] == "-r" or currentarg[1] == "-run":
             distance, time = currentarg[2], currentarg[3]
             log = {"distance": distance, "time": time}
             print("Recording run of "+ distance + " in time " + time)
-            update_runs(log)
+            update_logs(log, "runs")
 
     elif currentarg[0] == "graph":
         print("show graph")
